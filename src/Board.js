@@ -79,12 +79,36 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      // if there are multiple 1's in row with index rowIndex
+      
+      var row = this.rows()[rowIndex];
+      var sum = 0;
+      for (var i = 0; i < row.length; i++) {
+        sum += row[i];
+      }
+
+      if (sum > 1) {
+        return true;
+      }
+      return false; 
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      var rowArr = this.rows();
+      var sum = function(arr) {
+        var total = 0;
+        for (var i = 0; i < arr.length; i++) {
+          total += arr[i];
+        }
+        return total; 
+      }
+      for (var i = 0; i < rowArr.length; i++) {
+        if (sum(rowArr[i]) > 1) {
+          return true; 
+        }
+      }
+      return false; 
     },
 
 
@@ -93,8 +117,39 @@
     // --------------------------------------------------------------
     //
     // test if a specific column on this board contains a conflict
+
+    getCols: function() {
+      var n = this.rows().length;
+      var output = new Array(n);
+      for (var i = 0; i < output.length; i++) {
+        output[i] = [];
+      }
+      // output needs to be an array of Arrays with length n;
+      var rowArr = this.rows();
+      //debugger;
+      for (var i = 0; i < rowArr.length; i++) {
+        for (var j = 0; j < rowArr[i].length; j++) {
+          output[j].push(rowArr[i][j]);
+        }
+      }
+      return output; 
+    },
+
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+
+      var col = this.getCols()[colIndex];
+      var sum = 0;
+
+      //debugger;
+      for (var i = 0; i < col.length; i++) {
+        sum += col[i];
+      }
+      console.log(sum)
+      if (sum > 1) {
+        return true;
+      }
+
+      return false; 
     },
 
     // test if any columns on this board contain conflicts
@@ -116,7 +171,6 @@
     hasAnyMajorDiagonalConflicts: function() {
       return false; // fixme
     },
-
 
 
     // Minor Diagonals - go from top-right to bottom-left
@@ -144,5 +198,7 @@
       });
     });
   };
+
+
 
 }());
